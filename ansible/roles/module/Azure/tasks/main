@@ -1,0 +1,4 @@
+---
+- name: Install from Stdin
+  become: true
+  shell: echo "Install-Module Az -AllowClobber -Force" | pwsh -File -
