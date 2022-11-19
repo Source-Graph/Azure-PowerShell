@@ -1,0 +1,9 @@
+---
+
+latest_lts: "22.04"
+last_lts: "20.04"
+
+url_latest: "https://packages.microsoft.com/config/ubuntu/{{latest_lts}}/packages-microsoft-prod.deb"
+url_last: "https://packages.microsoft.com/config/ubuntu/{{last_lts}}/packages-microsoft-prod.deb"
+
+default: ""

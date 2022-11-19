@@ -1,0 +1,45 @@
+---
+- name: Dependencies
+  become: true
+  ansible.builtin.apt:
+    pkg:
+    - wget
+    - apt-transport-https
+    - software-properties-common
+
+- name: Create directory
+  become: true
+  ansible.builtin.file:
+    path: "{{dl_to}}"
+    state: directory
+    mode: '0755'
+
+- name: If OS Version > LTS, use LTS
+  set_fact:
+    this_url: "{{url_latest}}"
+  when: (ansible_distribution_version | replace('.','')) > (latest_lts | replace('.',''))
+
+- name: If OS Version <= LTS
+  set_fact:
+    this_url: "url_last"
+  when: (ansible_distribution_version | replace('.','')) <= (latest_lts | replace('.',''))
+
+- name: Download the Microsoft repository GPG keys
+  become: true
+  ansible.builtin.get_url:
+    url: "{{this_url}}"
+    dest: "{{dl_to}}/packages-microsoft-prod.deb"
+
+- name: Install GPG key
+  become: true
+  ansible.builtin.apt:
+    deb: "{{dl_to}}/packages-microsoft-prod.deb"
+
+- name: Install PowerShell
+  become: true
+  ansible.builtin.apt:
+    pkg:
+    - powershell
+    update_cache: true
+
+# https://learn.microsoft.com/en-us/powershell/scripting/install/install-ubuntu
