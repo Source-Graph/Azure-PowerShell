@@ -1,0 +1,6 @@
+---
+
+# Creates a directory, use Stat to make idempotent!
+creates_user: "/home/{{ansible_user}}/.local/share/powershell/Modules/Az"
+
+creates_root: "/root/.local/share/powershell/Modules/Az"

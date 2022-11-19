@@ -1,0 +1,21 @@
+---
+- name: Get stat of PS module - root
+  become: true
+  ansible.builtin.stat:
+    path: "{{creates_root}}"
+  register: module_root
+
+- name: Get stat of PS module
+  ansible.builtin.stat:
+    path: "{{creates_user}}"
+  register: module_user
+
+
+- name: Install from Stdin - root
+  become: true
+  shell: echo "Install-Module Az -AllowClobber -Force" | pwsh -File -
+  when: not (module_root.stat.isdir is defined and module_root.stat.isdir)
+
+- name: Install from Stdin - user
+  shell: echo "Install-Module Az -AllowClobber -Force" | pwsh -File -
+  when: not (module_user.stat.isdir is defined and module_user.stat.isdir)

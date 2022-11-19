@@ -5,3 +5,4 @@
 
   roles:
   - PowerShell on Linux/default
+  - module/Azure/linux
